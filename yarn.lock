@@ -5881,6 +5881,11 @@ node-libs-browser@^2.2.1:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
+node-mediainfo@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/node-mediainfo/-/node-mediainfo-1.0.3.tgz#1b0e76bcbc97e4e58f9d174071fd89798850f8cf"
+  integrity sha512-FGwQYvLMW+XOnw7r4MnVq9FGO5YJjlQOB971wEx3z+GBWhZF783mHrRz/RUloB0+agEfsRUk/mQqrn/JeDH0PQ==
+
 node-object-hash@^1.2.0:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/node-object-hash/-/node-object-hash-1.4.2.tgz#385833d85b229902b75826224f6077be969a9e94"
