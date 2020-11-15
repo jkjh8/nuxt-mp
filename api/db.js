@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/mydb', {
+mongoose.connect('mongodb://localhost/MediaServer', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
