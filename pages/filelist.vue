@@ -4,42 +4,49 @@
       <v-card-title class="grey lighten-4">
         FILES
         <v-spacer />
-        <v-btn>
-          UPLOAD
+        <v-btn icon @click="delFile">
+          <v-icon>mdi-delete-circle-outline</v-icon>
+        </v-btn>
+        <v-btn icon @click="dialog = !dialog">
+          <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
       </v-card-title>
       <v-card-text>
-        <v-data-table
-          v-model="selected"
-          :headers="fileListHeaders"
-          :items="filelist"
-          item-key="name"
-          show-select
-        >
-        </v-data-table>
+        <FilelistTable ref="resetSelected" @updateSelected="updateSelected" />
       </v-card-text>
     </v-card>
+    <FileUpload :dialog="dialog" @closeUpload="closeUpload" />
   </v-container>
 </template>
 
 <script>
+import FilelistTable from '../components/FilelistTable'
+import FileUpload from '../components/FileUpload'
+
 export default {
-  async asyncData (context) {
-    const { data } = await context.$axios.get('/api/files/filelist')
-    return {
-      filelist: data
-    }
+  middleware: 'auth',
+  components: {
+    FilelistTable, FileUpload
   },
   data () {
     return {
-      selected: [],
-      fileListHeaders: [
-        { text: 'Name', value: 'name' },
-        { text: 'Type', value: 'type' },
-        { text: 'Length', value: 'duration' },
-        { text: 'Size', value: 'size' },
-        { text: 'Auctions', value: 'auctions' }
-      ]
+      dialog: false,
+      selectedFile: []
+    }
+  },
+  methods: {
+    closeUpload () {
+      this.dialog = false
+    },
+    updateSelected (value) {
+      this.selectedFile = value
+    },
+    async delFile () {
+      const files = this.selectedFile
+      if (files.lenght === 0) { return }
+      const { data } = await this.$axios.post('/api/files/del', files)
+      this.$store.dispatch('filelist/updateFilelist', data)
+      this.$refs.resetSelected.resetSelected()
     }
   }
 }
