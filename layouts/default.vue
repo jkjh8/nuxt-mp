@@ -80,7 +80,7 @@ export default {
         { item: 'playlist', link: '/playlist' },
         { item: 'filelist', link: '/filelist' },
         { item: 'player', link: '/player' },
-        { item: 'ipaddress', link: '/ipaddress' }
+        { item: 'ipaddress', link: '/ipaddr' }
       ]
     }
   }

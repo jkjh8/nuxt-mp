@@ -25,7 +25,8 @@
     "node-mediainfo": "^1.0.3",
     "nuxt": "^2.14.6",
     "vue-video-player": "^5.0.2",
-    "vue-window-size": "^1.0.2"
+    "vue-window-size": "^1.0.2",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

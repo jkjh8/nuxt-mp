@@ -22,7 +22,7 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="videoDialog" internal-activator max-width="700px" :aspect-ratio="16/9">
+    <v-dialog v-model="videoDialog" internal-activator width="100%" :aspect-ratio="16/9">
       <VideoPreview :video-source="videoSource" />
     </v-dialog>
   </v-container>
