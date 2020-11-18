@@ -54,7 +54,6 @@ export default {
       this.Setup.forEach((item) => {
         rtObject[item.index] = item.value
       })
-      console.log(rtObject)
       this.$axios.post('/api/setup', rtObject)
     }
   }

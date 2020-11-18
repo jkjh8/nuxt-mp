@@ -18,7 +18,11 @@
           icon
           @click="Preview(item.name)"
         >
-          <v-icon>mdi-play-circle-outline</v-icon>
+          <v-icon
+            color="green"
+          >
+            mdi-play
+          </v-icon>
         </v-btn>
       </template>
     </v-data-table>

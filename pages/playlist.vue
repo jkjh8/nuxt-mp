@@ -207,20 +207,13 @@ export default {
       this.$axios.post('/api/playlist', { id: this.playlistId, list: this.playlist })
     },
     playid (id) {
-      this.$axios.get('/api/setup/playid/' + this.playlistId + '/' + id).then((res) => {
-        console.log(res)
-      })
+      this.$axios.get('/api/setup/playid/' + this.playlistId + '/' + id)
     },
     playli () {
-      this.$axios.get('/api/setup/playli/' + this.playlistId).then((res) => {
-        console.log(res)
-      })
+      this.$axios.get('/api/setup/playli/' + this.playlistId)
     },
     stop () {
-      console.log('stop')
-      this.$axios.get('/api/setup/stop').then((res) => {
-        console.log(res)
-      })
+      this.$axios.get('/api/setup/stop')
     }
   }
 }
