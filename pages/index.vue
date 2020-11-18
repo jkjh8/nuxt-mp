@@ -1,10 +1,7 @@
 <template>
-  <h1>Home</h1>
+  <v-container>
+    <div class="mx-auto" style="text-align: center;">
+      <h1>Media Server</h1>
+    </div>
+  </v-container>
 </template>
-
-<script>
-
-export default {
-
-}
-</script>
