@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require('express')
+
 const {
   Playlist_1,
   Playlist_2,
@@ -23,6 +24,7 @@ const db_Playlist = [
 ]
 module.exports.getplaylist = async function(req, res) {
   const id = req.params.id
+  console.log(id)
   if (id < 8) {
     let playlist = await db_Playlist[id].find({}).select({ _id: 0 })
     res.json(playlist)
@@ -34,6 +36,7 @@ module.exports.getplaylist = async function(req, res) {
 module.exports.postplaylist = async function(req, res) {
   const id = req.body.id
   const list = req.body.list
+  console.log(id)
   
   if (id > 8) { return res.status(422).json({ message: 'out of range' }) }
   try { 

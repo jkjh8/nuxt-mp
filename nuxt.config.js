@@ -86,7 +86,6 @@ export default {
             url: '/api/users/login',
             method: 'post',
             propertyName: 'token',
-            maxAge: 60 * 60 * 24
           },
           logout: true,
           user: {

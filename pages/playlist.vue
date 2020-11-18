@@ -5,8 +5,8 @@
         class="grey lighten-4"
       >
         <v-row dense>
-          <v-col cols="8">
-            <h4>PLAY LIST</h4>
+          <v-col cols="7">
+            <h4>PLAY LIST {{ Number(playlistId) + 1 }}</h4>
           </v-col>
           <v-col cols="3">
             <v-select
@@ -20,9 +20,15 @@
               @change="changePlaylist(`${selected}`)"
             />
           </v-col>
-          <v-col cols="1">
+          <v-col cols="2">
+            <v-spacer />
+            <v-btn icon @click="playli()">
+              <v-icon>mdi-play</v-icon>
+            </v-btn>
+            <v-btn icon @click="stop">
+              <v-icon>mdi-stop</v-icon>
+            </v-btn>
             <v-btn
-              class="mx-6"
               icon
               @click="addFileDialog = !addFileDialog"
             >
@@ -70,7 +76,10 @@
                 >
                   <v-icon>mdi-chevron-down</v-icon>
                 </v-btn>
-                <v-btn icon>
+                <v-btn
+                  icon
+                  @click="playid(i)"
+                >
                   <v-icon>mdi-play</v-icon>
                 </v-btn>
                 <v-btn
@@ -116,7 +125,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { formatTimes } from '../plugins/format'
+import { dataFormat } from '../mixins/format'
 import FilelistTable from '../components/FilelistTable'
 
 export default {
@@ -124,6 +133,7 @@ export default {
   components: {
     FilelistTable
   },
+  mixins: [dataFormat],
   data () {
     return {
       items: [
@@ -148,14 +158,11 @@ export default {
     })
   },
   async created () {
+    this.selected = this.playlistId
     const { data } = await this.$axios.get(`/api/playlist/${this.playlistId}`)
     this.playlist = data
-    this.selected = this.playlistId
   },
   methods: {
-    times (time) {
-      return formatTimes(time * 1000)
-    },
     async changePlaylist (id) {
       await this.$store.dispatch('playlist/updatePlaylistId', id)
       const { data } = await this.$axios.get(`/api/playlist/${this.playlistId}`)
@@ -198,6 +205,22 @@ export default {
         this.playlist.push(file)
       })
       this.$axios.post('/api/playlist', { id: this.playlistId, list: this.playlist })
+    },
+    playid (id) {
+      this.$axios.get('/api/setup/playid/' + this.playlistId + '/' + id).then((res) => {
+        console.log(res)
+      })
+    },
+    playli () {
+      this.$axios.get('/api/setup/playli/' + this.playlistId).then((res) => {
+        console.log(res)
+      })
+    },
+    stop () {
+      console.log('stop')
+      this.$axios.get('/api/setup/stop').then((res) => {
+        console.log(res)
+      })
     }
   }
 }

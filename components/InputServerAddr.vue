@@ -63,11 +63,18 @@ export default {
     errmsg (val) {
       if (!val) { return }
       setTimeout(() => (this.errmsg = false), 2000)
-    },
-    playerSetup () {
-      this.serverip = this.playerSetup.rtIp
-      this.serverport = this.playerSetup.rtPort
     }
+  },
+  mounted () {
+    this.$axios.get('/api/setup').then((res) => {
+      for (const [key, value] of Object.entries(res.data)) {
+        if (key === 'rtIp') {
+          this.serverip = value
+        } else if (key === 'rtPort') {
+          this.serverport = value
+        }
+      }
+    })
   },
   methods: {
     submit () {
@@ -76,15 +83,14 @@ export default {
         this.alertMessage = 'Check your ip address!'
         this.errmsg = true
       } else {
-        const rtdata = [
-          { rtIp: this.serverip },
-          { rtPort: this.serverport }
-        ]
-        this.$store.commit('updateObjPlayerSetup', rtdata)
+        const rtdata = {
+          rtIp: this.serverip,
+          rtPort: Number(this.serverport)
+        }
         this.alertType = 'success'
         this.alertMessage = 'Ok! applied'
         this.errmsg = true
-        this.$http.post('/setup', this.playerSetup)
+        this.$axios.post('/api/setup', rtdata)
       }
     }
   }

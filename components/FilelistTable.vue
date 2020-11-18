@@ -22,7 +22,7 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-dialog v-model="videoDialog" internal-activator width="100%" :aspect-ratio="16/9">
+    <v-dialog v-model="videoDialog" internal-activator max-width="700px" :aspect-ratio="16/9">
       <VideoPreview :video-source="videoSource" />
     </v-dialog>
   </v-container>
@@ -30,13 +30,14 @@
 
 <script>
 import { mapState } from 'vuex'
-import { formatTimes, formatBytes } from '../plugins/format'
+import { dataFormat } from '../mixins/format'
 import VideoPreview from '../components/VideoPreview'
 
 export default {
   components: {
     VideoPreview
   },
+  mixins: [dataFormat],
   data () {
     return {
       selected: [],
@@ -66,12 +67,6 @@ export default {
     this.$store.dispatch('filelist/updateFilelist', data)
   },
   methods: {
-    times (time) {
-      return formatTimes(time * 1000)
-    },
-    bytes (size) {
-      return formatBytes(size)
-    },
     resetSelected () {
       this.selected = []
     },

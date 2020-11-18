@@ -20,6 +20,7 @@ import InputIpAddr from '../components/InputIpAddr'
 import InputServerAddr from '../components/InputServerAddr'
 
 export default {
+  middleware: 'auth',
   components: {
     InputIpAddr, InputServerAddr
   },

@@ -6,36 +6,16 @@
       </v-card-title>
       <v-card-text>
         <v-list>
-          <v-list-item>
-            POWER ON PLAY
-            <v-spacer />
-            <v-switch v-model="Setup.poweronplay" />
-          </v-list-item>
-          <v-list-item>
-            LOOP ONE
-            <v-spacer />
-            <v-switch v-model="Setup.loop_one" />
-          </v-list-item>
-          <v-list-item>
-            LOOP ALL
-            <v-spacer />
-            <v-switch v-model="Setup.loop" />
-          </v-list-item>
-          <v-list-item>
-            FULL SCREEN
-            <v-spacer />
-            <v-switch v-model="Setup.fullscreen" />
-          </v-list-item>
-          <v-list-item>
-            DURATION TIME
-            <v-spacer />
-            <v-switch v-model="Setup.progress" />
-          </v-list-item>
-          <v-list-item>
-            CLOSE AT END OF PLAY
-            <v-spacer />
-            <v-switch v-model="Setup.endclose" />
-          </v-list-item>
+          <template v-for="(item, index) in Setup">
+            <v-list-item :key="index">
+              {{ item.name }}
+              <v-spacer />
+              <v-switch
+                v-model="item.value"
+                @click="playerSet()"
+              />
+            </v-list-item>
+          </template>
         </v-list>
       </v-card-text>
     </v-card>
@@ -44,16 +24,38 @@
 
 <script>
 export default {
+  middleware: 'auth',
   data () {
     return {
-      Setup: {
-        poweronplay: false,
-        loop_one: false,
-        loop: false,
-        fullscreen: false,
-        progress: false,
-        endclose: false
+      Setup: [
+        { name: 'POWER ON PLAY', index: 'poweronplay', value: false },
+        { name: 'LOOP ONE', index: 'loop_one', value: false },
+        { name: 'LOOP', index: 'loop', value: false },
+        { name: 'FULL SCREEN', index: 'fullscreen', value: true },
+        { name: 'DURATION', index: 'progress', value: false },
+        { name: 'END STOP & CLOSE', index: 'endclose', value: false }
+      ]
+    }
+  },
+  mounted () {
+    this.$axios.get('/api/setup').then((res) => {
+      for (const [key, value] of Object.entries(res.data)) {
+        this.Setup.forEach((item, index) => {
+          if (item.index === key) {
+            this.Setup[index].value = value
+          }
+        })
       }
+    })
+  },
+  methods: {
+    playerSet () {
+      const rtObject = {}
+      this.Setup.forEach((item) => {
+        rtObject[item.index] = item.value
+      })
+      console.log(rtObject)
+      this.$axios.post('/api/setup', rtObject)
     }
   }
 }

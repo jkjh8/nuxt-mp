@@ -86,12 +86,20 @@ export default {
     errmsg (val) {
       if (!val) { return }
       setTimeout(() => (this.errmsg = false), 2000)
-    },
-    playerSetup (value) {
-      this.ip = this.playerSetup.ip
-      this.nm = this.playerSetup.nm
-      this.gw = this.playerSetup.gw
     }
+  },
+  mounted () {
+    this.$axios.get('/api/setup').then((res) => {
+      for (const [key, value] of Object.entries(res.data)) {
+        if (key === 'ip') {
+          this.ip = value
+        } else if (key === 'netmask') {
+          this.nm = value
+        } else if (key === 'gw') {
+          this.gw = value
+        }
+      }
+    })
   },
   methods: {
     submit () {
@@ -100,16 +108,15 @@ export default {
         this.alertMessage = 'Check your ip address!'
         this.errmsg = true
       } else {
-        const rtdata = [
-          { ip: this.ip },
-          { nm: this.nm },
-          { gw: this.gw }
-        ]
-        this.$store.commit('updateObjPlayerSetup', rtdata)
+        const rtdata = {
+          ip: this.ip,
+          netmask: this.nm,
+          gw: this.gw
+        }
         this.alertType = 'success'
         this.alertMessage = 'Apply after reboot'
         this.errmsg = true
-        this.$http.post('/setup', this.playerSetup)
+        this.$axios.post('/api/setup', rtdata)
       }
     }
   }
