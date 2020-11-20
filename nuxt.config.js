@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import ip from 'ip'
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -52,7 +53,9 @@ export default {
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'http://' + ip.address()
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
